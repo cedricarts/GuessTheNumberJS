@@ -1,20 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Basic page metadata and responsive setup -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess The Number</title>
+
+    <!-- External stylesheet for layout and styling -->
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
+    <!-- Main heading of the game -->
     <h1>Guess The Number</h1>
-    <p>Between 0 - 10</p>
+
+    <!-- Quick game instructions -->
+    <p>Pick a number between 0 and 10</p>
+
+    <!-- Main game container -->
     <div class="container">
-        <input id="user-input">
-        <button id="submit-btn" onclick="GuessNumber()">Guess</button>
+        <!-- Input field for the player's guess.
+             Using type="number" gives better UX and basic browser validation. -->
+        <input id="user-input" type="number" min="0" max="10" placeholder="Enter your guess">
+
+        <!-- Button to submit the guess.
+             No inline JS here — event listeners are handled in main.js -->
+        <div class="btn-container">
+            <button id="submit-btn">Guess</button>
+            <button id="restart">New Game</button>
+        </div>
+
+
+        <!-- Span element for displaying feedback messages to the user -->
         <span id="output"></span>
     </div>
-    
-</body>
+
+    <!-- External JavaScript file containing all game logic.
+         Placed at the end of the body to ensure the DOM is fully loaded first. -->
     <script src="main.js"></script>
+</body>
+
 </html>

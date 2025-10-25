@@ -1,57 +1,70 @@
-// Get references to the important DOM elements
-const SubmitBtn = document.getElementById("submit-btn");
-const userInput = document.getElementById("user-input");
-const outResult = document.getElementById("output");
+// ✅ Get references to HTML elements
+const submitBtn = document.getElementById("submit-btn");  // The "Guess" button
+const userInput = document.getElementById("user-input");  // The input where user enters their number
+const outResult = document.getElementById("output");      // The element where results will be displayed
+const restartBtn = document.getElementById("restart");     // The "Restart" button
 
-// Generate the first random number between 0 and 10 when the page loads
-let randomNumber = generateRandomNumber();
 
-// Attach the guessing function to the button click
-SubmitBtn.onclick = guessNumber;
+restartBtn.onclick = RestartGame;
+
+//Generate the initial random number when the page loads
+let randomNumber = RandomNumber();
+
+//Attach the GuessRandomNumber function to the button click
+submitBtn.onclick = GuessRandomNumber;
 
 /**
- * Generates and returns a random integer between 0 and 10 (inclusive)
- * Math.random() gives [0, 1), so multiplying by 11 gives 0–10.999...
- * Math.floor() then trims it to an integer between 0 and 10.
+ * RandomNumber()
+ * Generates a random integer between 0 and 10 (inclusive)
+ * Math.random() gives [0,1), multiplying by 11 gives [0,11),
+ * and Math.floor converts it to an integer in [0,10].
  */
-function generateRandomNumber() {
-    return Math.floor(Math.random() * 11);
+function RandomNumber(){
+   let computerNumber = Math.floor(Math.random() * 11);
+   return computerNumber;
 }
 
 /**
- * Handles the core game logic:
- * - Reads user input
- * - Compares it to the secret number
- * - Displays feedback
- * - Generates a new number on a correct guess
+ * GuessRandomNumber()
+ * Triggered when the user clicks the "Guess" button.
+ * It reads the user's guess, compares it with the random number,
+ * and displays appropriate feedback.
  */
-function guessNumber() {
-    // Clear any previous result message to avoid stacking feedback
+function GuessRandomNumber(){
+    // Clear previous result before showing new feedback
     outResult.innerText = "";
 
-    // Convert user input to a number for proper comparison
-    const userGuess = Number(userInput.value);
+    // Convert the user's input value to a number
+    let userGuess = Number(userInput.value);
+
+    // Call RandomNumber() here, but note: this currently doesn't update randomNumber
+    randomNumber;
+
+    // This variable will store the feedback message
     let result;
 
-    // Check if the input is a valid number
-    if (isNaN(userGuess)) {
-        result = "Please enter a valid number.";
-    } 
-    // Case 1: User guessed correctly
-    else if (userGuess === randomNumber) {
-        result = `Yay, you guessed the number!! The number was ${randomNumber}.`;
-        // Generate a new random number so the game continues with a new target
-        randomNumber = generateRandomNumber();
-    } 
-    // Case 2: Guess is too high
-    else if (userGuess > randomNumber) {
-        result = "The number is too high!";
-    } 
-    // Case 3: Guess is too low
-    else {
-        result = "The number is too low!";
+    // Case 1: User guessed the number correctly
+    if(userGuess == randomNumber){
+        result = `Yay, You guessed the number!! The number is ${userGuess}`;
+        // Generate a new random number, but again not storing it — intentional as per your structure
+        randomNumber = RandomNumber();
+    }
+    //Case 2: User's guess is too high
+    else if(userGuess > randomNumber){
+        result = `The number is too high!`;
+    }
+    //Case 3: User's guess is too low
+    else{
+        result = `The number is too low!`;
     }
 
-    // Show the feedback in the output area
+    // Display the feedback to the user
     outResult.innerText = result;
+}
+
+function RestartGame(){
+    outResult.innerText = "";
+    randomNumber = RandomNumber();
+    randomNumber;
+    location.reload();
 }
